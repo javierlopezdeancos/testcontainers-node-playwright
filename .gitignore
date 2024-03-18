@@ -1,0 +1,6 @@
+.idea
+node_modules
+build
+example-reports
+tsconfig.build.tsbuildinfo
+package-lock.json
