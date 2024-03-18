@@ -2,8 +2,8 @@
 Playwright module for Testcontainers
 
 [Playwright](https://playwright.dev/) is an [open source](https://github.com/microsoft/playwright) Microsoft
-end-to-end testing tool for modern web apps. You review the
-[Playwright documentation](https://playwright.dev/docs/intro).
+**end-to-end testing tool for modern web apps**. You can review the
+Playwright documentation in the [Playwright official site](https://playwright.dev/docs/intro).
 
 ## Features Implemented
 
