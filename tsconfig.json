@@ -15,8 +15,5 @@
         "noImplicitOverride": true,
         "composite": true
     },
-    "exclude": [
-        "build",
-        "jest.config.ts"
-    ]
+    "exclude": ["build", "jest.config.ts", "src/example-project/**/*"]
 }
