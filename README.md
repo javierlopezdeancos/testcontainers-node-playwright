@@ -1,5 +1,8 @@
 # testcontainers-node-playwright
-Playwright module for Testcontainers
+![NPM Version](https://img.shields.io/npm/v/testcontainers-node-playwright)
+![GitHub License](https://img.shields.io/github/license/javierlopezdeancos/testcontainers-node-playwright)
+
+Playwright module for [Testcontainers](https://testcontainers.com/)
 
 [Playwright](https://playwright.dev/) is an [open source](https://github.com/microsoft/playwright) Microsoft
 **end-to-end testing tool for modern web apps**. You can review the
