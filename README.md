@@ -5,6 +5,20 @@ Playwright module for Testcontainers
 **end-to-end testing tool for modern web apps**. You can review the
 Playwright documentation in the [Playwright official site](https://playwright.dev/docs/intro).
 
+- [Features Implemented](#features-implemented)
+- [Installation](#installation)
+- [How to use](#how-to-use)
+  - [Start a Playwright container](#start-a-playwright-container)
+  - [Execute test in a Playwright container](#execute-test-in-a-playwright-container)
+  - [Reporter](#reporter)
+  - [Execute tests in a Playwright container and read the dot reporter output](#execute-tests-in-a-playwright-container-and-read-the-dot-reporter-output)
+  - [Execute tests in a Playwright container and read the line reporter output](#execute-tests-in-a-playwright-container-and-read-the-line-reporter-output)
+  - [Execute tests in a Playwright container with default configuration and extract a html reporter with results](#execute-tests-in-a-playwright-container-with-default-configuration-and-extract-a-html-reporter-with-results)
+  - [Execute tests in a Playwright container with default configuration and extract a json reporter with results](#execute-tests-in-a-playwright-container-with-default-configuration-and-extract-a-json-reporter-with-results)
+  - [Execute tests in a Playwright container with default configuration and extract a blob reporter with results](#execute-tests-in-a-playwright-container-with-default-configuration-and-extract-a-blob-reporter-with-results)
+  - [Execute tests in a Playwright container with default configuration and extract a junit reporter with results](#execute-tests-in-a-playwright-container-with-default-configuration-and-extract-a-junit-reporter-with-results)
+
+
 ## Features Implemented
 
 - Run Playwright tests in a playwright container
