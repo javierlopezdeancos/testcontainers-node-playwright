@@ -23,27 +23,27 @@ Playwright documentation in the [Playwright official site](https://playwright.de
 
 ## Features Implemented
 
-- Run Playwright tests in a playwright container
-    - [x] Run all Playwright tests in a playwright container
-    - [ ] Run specific tests in a playwright container
-- Run Playwright tests in a playwright container and extract the reporter results
+- Run Playwright tests in a playwright container.
+    - [x] Run all Playwright tests in a playwright container.
+    - [ ] Run specific tests in a playwright container.
+- Run Playwright tests in a playwright container and extract the reporter results.
     - [x] Run Playwright tests in a playwright container and read the output line reporter.
     - [x] Run Playwright tests in a playwright container and read the output dot reporter.
     - [x] Run Playwright tests in a playwright container with default configuration and extract the html reporter.
-    - [ ] Run Playwright tests in a playwright container with default configuration and open the html the json reporter.
+    - [ ] Run Playwright tests in a playwright container with default configuration and open the html reporter.
     - [x] Run Playwright tests in a playwright container with default configuration and extract the json reporter.
     - [x] Run Playwright tests in a playwright container with default configuration and extract the junit reporter.
     - [x] Run Playwright tests in a playwright container with default configuration and extract the blob reporter.
     - [ ] Run Playwright tests in a playwright container with default configuration and extract a list of
       different kind of reporter.
-- Run Playwright tests against your app
-    - [ ] Run Playwright tests in a playwright container against your app container
-- Run Playwright test in UI mode
+- Run Playwright tests against your app.
+    - [ ] Run Playwright tests in a playwright container against your app container.
+- Run Playwright test in UI mode.
     - [ ] Run Tests in UI Mode that user can follow up outside the container using a browser.
-- Run Playwright trace viewer GUI
-    - [ ] Run Trace viewer GUI that user can follow up and control outside the container using a browser.
-- Debugging Playwright tests
-    - [ ] Debugging Playwright tests with the Playwright inspector in a Playwright container
+- Run Playwright and extract trace viewer on failed test.
+    - [x] Run Playwright tests that fail in a playwright container with default configuration and extract the trace zip viewer.
+- Debugging Playwright tests.
+    - [ ] Debugging Playwright tests with the Playwright inspector in a Playwright container.
 
 ## Installation
 ```bash
