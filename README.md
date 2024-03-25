@@ -41,7 +41,8 @@ Playwright documentation in the [Playwright official site](https://playwright.de
 - Run Playwright test in UI mode.
     - [ ] Run Tests in UI Mode that user can follow up outside the container using a browser.
 - Run Playwright and extract trace viewer on failed test.
-    - [x] Run Playwright tests that fail in a playwright container with default configuration and extract the trace zip viewer.
+    - [x] Run Playwright tests in a playwright container with default configuration that should fail and extract the
+          trace viewer zip file.
 - Debugging Playwright tests.
     - [ ] Debugging Playwright tests with the Playwright inspector in a Playwright container.
 
