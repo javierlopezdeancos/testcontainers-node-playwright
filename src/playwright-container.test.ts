@@ -169,7 +169,7 @@ describe("PlaywrightContainer", () => {
     expect(existsSync(externalDestinationReporterPath)).toBe(true);
   });
 
-  it("should set a trace on first retry", async () => {
+  it("should fail example test creating a trace viewer by browser on first retry", async () => {
     const startedPlaywrightContainer = await new PlaywrightContainer(
       PLAYWRIGHT_IMAGE,
       EXTERNAL_PLAYWRIGHT_PROJECT_DIRECTORY,
@@ -186,6 +186,7 @@ describe("PlaywrightContainer", () => {
 
     const TEST_FAILED_NAME_GET_STARTED_LINK_IN_KEBAB_CASE = "example-fail-get-started-link";
     const TEST_FAILED_NAME_HAS_TITLE_IN_KEBAB_CASE = "example-fail-has-title";
+
     const browsers = Object.values(BROWSER);
 
     await startedPlaywrightContainer.saveTraceViewer(
