@@ -1,5 +1,5 @@
 name: Test
-run-name: "Ubuntu-22.04 :: Node 20.x :: Runtime Docker"
+run-name: "Ubuntu-22.04 / Node 20.x / Runtime Docker"
 
 on:
   push:
