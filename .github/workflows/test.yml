@@ -1,0 +1,35 @@
+name: Test
+run-name: "Runner (ubuntu-22.04) / Node (20.x) / Runtime (docker)"
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "README.md"
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - "README.md"
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.head_ref || github.sha }}"
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: "Runner (ubuntu-22.04) / Node (20.x) / Runtime (docker)"
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v3
+
+      - name: Install NodeJS 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: Node 20.x
+
+      - name: Install dependencies
+        run: npm ci --omit=optional
+
+      - name: Run tests
+        run: npm run test:ci
