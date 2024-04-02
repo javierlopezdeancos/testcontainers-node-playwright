@@ -35,7 +35,7 @@
     "test:ci": "npm run test -- --runInBand --coverage",
     "format": "prettier --write package.json \"**/*.ts\"",
     "lint": "eslint --fix package.json \"**/*.ts\"",
-    "lint:ci": "eslint package.json \"packages/**/*.ts\" --max-warnings=0",
+    "lint:ci": "eslint package.json \"**/*.ts\" --max-warnings=0",
     "update-deps": "npm-check-updates --workspaces --root -u"
   },
   "devDependencies": {
