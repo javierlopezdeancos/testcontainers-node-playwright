@@ -1,4 +1,6 @@
 # testcontainers-node-playwright
+
+[![Test](https://github.com/javierlopezdeancos/testcontainers-node-playwright/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/javierlopezdeancos/testcontainers-node-playwright/actions/workflows/test.yml)
 ![NPM Version](https://img.shields.io/npm/v/testcontainers-node-playwright)
 ![GitHub License](https://img.shields.io/github/license/javierlopezdeancos/testcontainers-node-playwright)
 
