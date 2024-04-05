@@ -1,0 +1,25 @@
+{
+  "name": "testcontainers-node-playwright-example-hello-world",
+  "version": "0.1.0",
+  "description": "Exmaple hello wolrd app to be runned into container and tested by playwright container",
+  "main": "./build/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node build/index.js"
+  },
+  "author": {
+    "name": "Javier Lopez de Ancos",
+    "email": "javierlopezdeancos@outlook.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/view": "^9.0.0",
+    "ejs": "^3.1.9",
+    "fastify": "^4.26.2"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/node": "^20.12.3",
+    "typescript": "^5.4.3"
+  }
+}

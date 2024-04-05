@@ -1,0 +1,41 @@
+<header>
+  <h1>Enjuto mojamuto bajonaaa mangurrián tontaco ahí va qué chorrazo cartoniano minim.</h1>
+</header>
+<main>
+  <p>
+    Chanante ipsum dolor sit amet, saepe ut incididunt minim asobinao fresquete. Traeros tol jamón et enratonao
+    enim te viste de torero ad. Ad gambitero ea eveniet nisi saepe consectetur enim ju-já coconut quis magna adipisicing.
+    Exercitation, ut magna eiusmod ad consectetur, churretoso aliqua ut exercitation. Piticli viejuno one more time.
+    Ullamco veniam tempor sed síberet ut ut aliqua exercitation ex hueles avinagrado. Artista labore eveniet enim.
+  </p>
+  <p>
+    Chanante ipsum dolor sit amet, tontiploster ea gambitero ut ex veniam. Mangurrián atiendee ad ut ex monetes ex
+    magna consectetur ad. Dolore magna sed eveniet melifluo tunante elit nuiiiii ut, quis cobete eveniet elit.
+    Tempor minim et incididunt cabeza de viejo cuerpo de joven ad ea nostrud.
+  </p>
+</main>
+<button id="show-dialog">Open dialog</button>
+
+<dialog>
+  <button id="close-dialog" autofocus>Close</button>
+  <p>Chanante ipsum dolor sit amet</p>
+  <form method="dialog">
+    <button>Close with form</button>
+  </form>
+</dialog>
+
+<script>
+  const dialog = document.querySelector("dialog");
+  const showButton = document.querySelector("#show-dialog");
+  const closeButton = document.querySelector("#close-dialog");
+
+  // "Show the dialog" button opens the dialog modally
+  showButton.addEventListener("click", () => {
+    dialog.showModal();
+  });
+
+  // "Close" button closes the dialog
+  closeButton.addEventListener("click", () => {
+    dialog.close();
+  });
+</script>
