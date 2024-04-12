@@ -4,6 +4,6 @@
     "build",
     "jest.config.ts",
     "src/**/*.test.ts",
-    "src/example-project/**/*",
+    "src/example-hello-world-app-tests/**/*"
   ]
 }
