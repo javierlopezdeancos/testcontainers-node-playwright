@@ -10,8 +10,6 @@ describe("PlaywrightContainer", () => {
   const HELLO_WORLD_APP_IMAGE = "javierland/example-hello-world-app:latest";
 
   const EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED = "3000";
-  const EXTERNAL_HELLO_WORLD_APP_ALIAS_TO_BE_TESTED = "hello-world-app";
-  const EXTERNAL_HELLO_WORLD_APP_URL_TO_BE_TESTED = `http://${EXTERNAL_HELLO_WORLD_APP_ALIAS_TO_BE_TESTED}:${EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED}`;
 
   const EXTERNAL_PLAYWRIGHT_SAVE_REPORTS_DIRECTORY = path.resolve(__dirname, "..", "example-reports");
   const EXTERNAL_PLAYWRIGHT_SAVE_TRACES_DIRECTORY = path.resolve(__dirname, "..", "example-results");
@@ -33,7 +31,6 @@ describe("PlaywrightContainer", () => {
 
     helloWorldAppStartedContainer = await new GenericContainer(HELLO_WORLD_APP_IMAGE)
       .withNetwork(startedNetwork)
-      .withNetworkAliases(EXTERNAL_HELLO_WORLD_APP_ALIAS_TO_BE_TESTED)
       .withExposedPorts(parseInt(EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED, 10))
       .withWaitStrategy(
         Wait.forHttp("/health", parseInt(EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED, 10)).forStatusCodeMatching(
@@ -44,13 +41,15 @@ describe("PlaywrightContainer", () => {
 
     await helloWorldAppStartedContainer.exec(["npx", "start"]);
 
+    const helloWorldAppStartedContainerIpAddress = helloWorldAppStartedContainer.getIpAddress(startedNetwork.getName());
+
     startedPlaywrightContainer = await new PlaywrightContainer(
       PLAYWRIGHT_IMAGE,
       EXTERNAL_HELLO_WORLD_APP_TESTS_DIRECTORY,
     )
       .withNetwork(startedNetwork)
       .withEnvironment({
-        APP_CONTAINER_URL_TO_GO_TO: EXTERNAL_HELLO_WORLD_APP_URL_TO_BE_TESTED,
+        APP_CONTAINER_URL_TO_GO_TO: `http://${helloWorldAppStartedContainerIpAddress}:${EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED}`,
         PLAYWRIGHT_HTML_REPORT: "test-reports",
         PLAYWRIGHT_JSON_OUTPUT_NAME: "results.json",
         PLAYWRIGHT_JUNIT_OUTPUT_NAME: "results.xml",
