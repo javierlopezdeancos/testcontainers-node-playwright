@@ -7,6 +7,13 @@
     "email": "javierlopezdeancos@outlook.com",
     "url": "https://javierlopezdeancos.dev"
   },
+  "contributors": [
+    "Javier Lopez de Ancos <javierlopezdeancos@outlook.com> (https://github.com/javierlopezdeancos)"
+  ],
+  "engines": {
+    "node": "v20.11.1",
+    "npm": "10.2.4"
+  },
   "keywords": [
     "playwright",
     "testing",
@@ -35,8 +42,15 @@
     "test:ci": "npm run test -- --runInBand --coverage",
     "format": "prettier --write package.json \"**/*.ts\"",
     "lint": "eslint --fix package.json \"**/*.ts\"",
-    "lint:ci": "eslint package.json \"**/*.ts\" --max-warnings=0",
+    "lint:ci": "npm run lint -- --max-warnings=0",
     "update-deps": "npm-check-updates --workspaces --root -u"
+  },
+  "lint-staged": {
+    "*.ts": "npm run lint && npm run format"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "pre-push": "npm run test:unit:coverage"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
@@ -53,6 +67,8 @@
     "tmp": "^0.2.3",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
+    "lint-staged": "^15.2.2",
+    "simple-git-hooks": "^2.11.1",
     "typescript": "^5.4.2"
   },
   "dependencies": {
