@@ -12,6 +12,7 @@ build
 example-reports
 example-results
 tsconfig.build.tsbuildinfo
+coverage
 
 # Example project
 src/example-hello-world-app-tests/package-lock.json

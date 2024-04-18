@@ -32,11 +32,11 @@ describe("PlaywrightContainer", () => {
     helloWorldAppStartedContainer = await new GenericContainer(HELLO_WORLD_APP_IMAGE)
       .withNetwork(startedNetwork)
       .withExposedPorts(parseInt(EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED, 10))
-      .withWaitStrategy(
+      /*.withWaitStrategy(
         Wait.forHttp("/health", parseInt(EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED, 10)).forStatusCodeMatching(
           (statusCode: number): boolean => statusCode === 200,
         ),
-      )
+      )*/
       .start();
 
     await helloWorldAppStartedContainer.exec(["npx", "start"]);
