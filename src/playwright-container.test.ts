@@ -1,6 +1,6 @@
 import path from "node:path";
 import { existsSync } from "node:fs";
-import { Wait, Network, GenericContainer, StartedTestContainer, StartedNetwork } from "testcontainers";
+import { /*Wait,*/ Network, GenericContainer, StartedTestContainer, StartedNetwork } from "testcontainers";
 import { PlaywrightContainer, StartedPlaywrightContainer, BROWSER } from "./playwright-container";
 
 describe("PlaywrightContainer", () => {
