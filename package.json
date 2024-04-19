@@ -46,11 +46,14 @@
     "update-deps": "npm-check-updates --workspaces --root -u"
   },
   "lint-staged": {
-    "*.ts": "npm run lint && npm run format"
+    "*.ts": [
+      "npm run lint",
+      "npm run format"
+    ]
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged",
-    "pre-push": "npm run test:unit:coverage"
+    "pre-push": "npm run test:ci"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
