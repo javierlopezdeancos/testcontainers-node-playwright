@@ -1,6 +1,6 @@
 {
   "name": "testcontainers-node-playwright",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "author": {
     "name": "Javier López de Ancos",
@@ -56,6 +56,6 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "testcontainers": "^10.7.2"
+    "testcontainers": "^10.9.0"
   }
 }
