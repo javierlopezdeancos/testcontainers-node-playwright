@@ -43,7 +43,7 @@ type ExportableReporterType = (typeof EXPORTABLE_REPORTER_TYPE)[keyof typeof EXP
 
 export class PlaywrightContainer extends GenericContainer {
   constructor(
-    image = "mcr.microsoft.com/playwright:v1.42.1-jammy",
+    image = "mcr.microsoft.com/playwright:v1.43.1-jammy",
     externalPlaywrightTestsDirectoryToCopyIntoContainerWorkingDirectory: string,
   ) {
     super(image);
