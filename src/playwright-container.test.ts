@@ -1,6 +1,14 @@
 import path from "node:path";
 import { existsSync } from "node:fs";
-import { PlaywrightContainer, BROWSER, DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE } from "./playwright-container";
+import {
+  PlaywrightContainer,
+  BROWSER,
+  DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
+  DEFAULT_HTML_REPORTER_OUTPUT_DIRECTORY,
+  DEFAULT_JSON_REPORTER_FILE,
+  DEFAULT_BLOB_REPORTER_FILE,
+  DEFAULT_JUNIT_REPORTER_FILE,
+} from "./playwright-container";
 
 describe("PlaywrightContainer", () => {
   jest.setTimeout(180_000);
@@ -63,7 +71,7 @@ describe("PlaywrightContainer", () => {
       DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
       EXTERNAL_PLAYWRIGHT_PROJECT_DIRECTORY,
     )
-      .withEnvironment({ PLAYWRIGHT_HTML_REPORT: "test-reports" })
+      .withEnvironment({ PLAYWRIGHT_HTML_REPORT: DEFAULT_HTML_REPORTER_OUTPUT_DIRECTORY })
       .start();
 
     const { output, exitCode } = await startedPlaywrightContainer.exec([
@@ -93,7 +101,7 @@ describe("PlaywrightContainer", () => {
       DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
       EXTERNAL_PLAYWRIGHT_PROJECT_DIRECTORY,
     )
-      .withEnvironment({ PLAYWRIGHT_JSON_OUTPUT_NAME: "results.json" })
+      .withEnvironment({ PLAYWRIGHT_JSON_OUTPUT_NAME: DEFAULT_JSON_REPORTER_FILE })
       .start();
 
     const { output, exitCode } = await startedPlaywrightContainer.exec([
@@ -122,7 +130,9 @@ describe("PlaywrightContainer", () => {
     const startedPlaywrightContainer = await new PlaywrightContainer(
       DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
       EXTERNAL_PLAYWRIGHT_PROJECT_DIRECTORY,
-    ).start();
+    )
+      .withEnvironment({ PLAYWRIGHT_BLOB_OUTPUT_NAME: DEFAULT_BLOB_REPORTER_FILE })
+      .start();
 
     const { output, exitCode } = await startedPlaywrightContainer.exec([
       "npx",
@@ -148,7 +158,7 @@ describe("PlaywrightContainer", () => {
       DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
       EXTERNAL_PLAYWRIGHT_PROJECT_DIRECTORY,
     )
-      .withEnvironment({ PLAYWRIGHT_JUNIT_OUTPUT_NAME: "results.xml" })
+      .withEnvironment({ PLAYWRIGHT_JUNIT_OUTPUT_NAME: DEFAULT_JUNIT_REPORTER_FILE })
       .start();
 
     const { output, exitCode } = await startedPlaywrightContainer.exec([
