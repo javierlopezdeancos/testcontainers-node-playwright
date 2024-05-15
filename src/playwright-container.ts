@@ -14,6 +14,8 @@ import {
   log,
 } from "testcontainers";
 
+export const DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
+
 const CONTAINER_WORKING_DIRECTORY = "/playwright";
 const DEFAULT_JSON_REPORTER_FILE = "results.json";
 const DEFAULT_HTML_REPORTER_OUTPUT_DIRECTORY = "test-reports";
@@ -43,7 +45,7 @@ type ExportableReporterType = (typeof EXPORTABLE_REPORTER_TYPE)[keyof typeof EXP
 
 export class PlaywrightContainer extends GenericContainer {
   constructor(
-    image = "mcr.microsoft.com/playwright:v1.43.1-jammy",
+    image = DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
     externalPlaywrightTestsDirectoryToCopyIntoContainerWorkingDirectory: string,
   ) {
     super(image);
