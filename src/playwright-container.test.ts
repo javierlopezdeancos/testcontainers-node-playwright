@@ -1,11 +1,18 @@
 import path from "node:path";
 import { existsSync } from "node:fs";
-import { PlaywrightContainer, BROWSER } from "./playwright-container";
+import {
+  PlaywrightContainer,
+  BROWSER,
+  DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
+  DEFAULT_HTML_REPORTER_OUTPUT_DIRECTORY,
+  DEFAULT_JSON_REPORTER_FILE,
+  DEFAULT_BLOB_REPORTER_FILE,
+  DEFAULT_JUNIT_REPORTER_FILE,
+} from "./playwright-container";
 
 describe("PlaywrightContainer", () => {
   jest.setTimeout(180_000);
 
-  const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.43.1-jammy";
   const EXTERNAL_PLAYWRIGHT_SAVE_REPORTS_DIRECTORY = path.resolve(__dirname, "..", "example-reports");
   const EXTERNAL_PLAYWRIGHT_SAVE_TRACES_DIRECTORY = path.resolve(__dirname, "..", "example-results");
   const EXTERNAL_PLAYWRIGHT_PROJECT_DIRECTORY = path.resolve(__dirname, "example-project");
@@ -17,7 +24,7 @@ describe("PlaywrightContainer", () => {
 
   it(`should pass example tests with a dot build in reporter`, async () => {
     const startedPlaywrightBuildInReporterContainer = await new PlaywrightContainer(
-      PLAYWRIGHT_IMAGE,
+      DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
       EXTERNAL_PLAYWRIGHT_PROJECT_DIRECTORY,
     ).start();
 
@@ -38,7 +45,7 @@ describe("PlaywrightContainer", () => {
 
   it(`should pass example tests with a line build in reporter`, async () => {
     const startedPlaywrightBuildInReporterContainer = await new PlaywrightContainer(
-      PLAYWRIGHT_IMAGE,
+      DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
       EXTERNAL_PLAYWRIGHT_PROJECT_DIRECTORY,
     ).start();
 
@@ -61,10 +68,10 @@ describe("PlaywrightContainer", () => {
     const externalDestinationReporterPath = path.resolve(EXTERNAL_PLAYWRIGHT_SAVE_REPORTS_DIRECTORY, "index.html");
 
     const startedPlaywrightContainer = await new PlaywrightContainer(
-      PLAYWRIGHT_IMAGE,
+      DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
       EXTERNAL_PLAYWRIGHT_PROJECT_DIRECTORY,
     )
-      .withEnvironment({ PLAYWRIGHT_HTML_REPORT: "test-reports" })
+      .withEnvironment({ PLAYWRIGHT_HTML_REPORT: DEFAULT_HTML_REPORTER_OUTPUT_DIRECTORY })
       .start();
 
     const { output, exitCode } = await startedPlaywrightContainer.exec([
@@ -91,10 +98,10 @@ describe("PlaywrightContainer", () => {
     const externalDestinationReporterPath = path.resolve(EXTERNAL_PLAYWRIGHT_SAVE_REPORTS_DIRECTORY, "results.json");
 
     const startedPlaywrightContainer = await new PlaywrightContainer(
-      PLAYWRIGHT_IMAGE,
+      DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
       EXTERNAL_PLAYWRIGHT_PROJECT_DIRECTORY,
     )
-      .withEnvironment({ PLAYWRIGHT_JSON_OUTPUT_NAME: "results.json" })
+      .withEnvironment({ PLAYWRIGHT_JSON_OUTPUT_NAME: DEFAULT_JSON_REPORTER_FILE })
       .start();
 
     const { output, exitCode } = await startedPlaywrightContainer.exec([
@@ -121,9 +128,11 @@ describe("PlaywrightContainer", () => {
     );
 
     const startedPlaywrightContainer = await new PlaywrightContainer(
-      PLAYWRIGHT_IMAGE,
+      DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
       EXTERNAL_PLAYWRIGHT_PROJECT_DIRECTORY,
-    ).start();
+    )
+      .withEnvironment({ PLAYWRIGHT_BLOB_OUTPUT_NAME: DEFAULT_BLOB_REPORTER_FILE })
+      .start();
 
     const { output, exitCode } = await startedPlaywrightContainer.exec([
       "npx",
@@ -146,10 +155,10 @@ describe("PlaywrightContainer", () => {
     const externalDestinationReporterPath = path.resolve(EXTERNAL_PLAYWRIGHT_SAVE_REPORTS_DIRECTORY, `results.xml`);
 
     const startedPlaywrightContainer = await new PlaywrightContainer(
-      PLAYWRIGHT_IMAGE,
+      DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
       EXTERNAL_PLAYWRIGHT_PROJECT_DIRECTORY,
     )
-      .withEnvironment({ PLAYWRIGHT_JUNIT_OUTPUT_NAME: "results.xml" })
+      .withEnvironment({ PLAYWRIGHT_JUNIT_OUTPUT_NAME: DEFAULT_JUNIT_REPORTER_FILE })
       .start();
 
     const { output, exitCode } = await startedPlaywrightContainer.exec([
@@ -171,7 +180,7 @@ describe("PlaywrightContainer", () => {
 
   it("should fail example test creating a trace viewer by browser on first retry", async () => {
     const startedPlaywrightContainer = await new PlaywrightContainer(
-      PLAYWRIGHT_IMAGE,
+      DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
       EXTERNAL_PLAYWRIGHT_PROJECT_DIRECTORY,
     ).start();
 

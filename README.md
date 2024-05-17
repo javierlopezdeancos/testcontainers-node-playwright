@@ -4,8 +4,8 @@
 ![NPM Version](https://img.shields.io/npm/v/testcontainers-node-playwright)
 ![GitHub License](https://img.shields.io/github/license/javierlopezdeancos/testcontainers-node-playwright)
 
-![Testcontainers logo](https://avatars.githubusercontent.com/u/13393021?s=48&v=4) 
-<img src="https://em-content.zobj.net/source/apple/391/performing-arts_1f3ad.png" alt="playwright logo" width="50"/>
+![Testcontainers logo](https://avatars.githubusercontent.com/u/13393021?s=48&v=4)
+<img src="https://playwright.dev/img/playwright-logo.svg" alt="playwright logo" width="50"/>
 
 Playwright module for [Testcontainers](https://testcontainers.com/)
 
@@ -54,6 +54,7 @@ Playwright documentation in the [Playwright official site](https://playwright.de
     - [ ] Debugging Playwright tests with the Playwright inspector in a Playwright container.
 
 ## Installation
+
 ```bash
 npm install testcontainers-node-playwright --save-dev
 ```
@@ -69,7 +70,7 @@ that you can review to choose a tag.
 import path from "path";
 import { PlaywrightContainer } from "@testcontainers/playwright";
 
-const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.42.1-jammy";
+const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
 
 const startedPlaywrightContainer = await new PlaywrightContainer(
@@ -82,10 +83,10 @@ const startedPlaywrightContainer = await new PlaywrightContainer(
 
 ```typescript
 const { output, exitCode } = await startedPlaywrightBuildInReporterContainer.exec([
-    "npx",
-    "playwright",
-    "test",
-  ]);
+  "npx",
+  "playwright",
+  "test",
+]);
 ```
 
 ### Reporter
@@ -104,7 +105,7 @@ class passing the type of reporter to extract and where do you want to extract i
 import path from "path";
 import { PlaywrightContainer } from "@testcontainers/playwright";
 
-const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.42.1-jammy";
+const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
 
 const startedPlaywrightContainer = await new PlaywrightContainer(
@@ -126,7 +127,7 @@ const { output, exitCode } = await startedPlaywrightBuildInReporterContainer.exe
 import path from "path";
 import { PlaywrightContainer } from "@testcontainers/playwright";
 
-const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.42.1-jammy";
+const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
 
 const startedPlaywrightContainer = await new PlaywrightContainer(
@@ -148,7 +149,7 @@ const { output, exitCode } = await startedPlaywrightBuildInReporterContainer.exe
 import path from "path";
 import { PlaywrightContainer } from "@testcontainers/playwright";
 
-const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.42.1-jammy";
+const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
 const PLAYWRIGHT_SAVE_REPORTS_DIRECTORY = path.resolve(__dirname, "..", "example-reports");
 
@@ -176,7 +177,7 @@ await startedPlaywrightContainer.saveReporter("html", externalDestinationReporte
 import path from "path";
 import { PlaywrightContainer } from "@testcontainers/playwright";
 
-const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.42.1-jammy";
+const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
 const PLAYWRIGHT_SAVE_REPORTS_DIRECTORY = path.resolve(__dirname, "..", "example-reports");
 
@@ -200,11 +201,20 @@ await startedPlaywrightContainer.saveReporter("json", externalDestinationReporte
 
 #### Execute tests in a Playwright container with default configuration and extract a blob reporter with results
 
+This functionality get some changes from [v1.44.0](https://github.com/javierlopezdeancos/testcontainers-node-playwright/pull/7#:~:text=at%20the%20changelog-,v1.44.0,-to%20the%20new) version or Playwright that introduce the blob report filename generation automatically adding a hash.
+
+You can read more about in the official [blob-reporter](https://playwright.dev/docs/test-reporters#blob-reporter) playwright documentation section.
+
+Those changes are reflected in the [PR #7](https://github.com/javierlopezdeancos/testcontainers-node-playwright/pull/7), taking a a workaround to get the blob reporter output filename for now, but that obviously will be removed in the future.
+
+> [!CAUTION]
+> This approach implies that you need to set the `PLAYWRIGHT_BLOB_OUTPUT_NAME` environment variable in the container with the name of the blob output file that you want to generate to be fixed and recoverable without need to read any `report-{hash}.zip` filename.
+
 ```typescript
 import path from "path";
 import { PlaywrightContainer } from "@testcontainers/playwright";
 
-const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.42.1-jammy";
+const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
 const PLAYWRIGHT_SAVE_REPORTS_DIRECTORY = path.resolve(__dirname, "..", "example-reports");
 
@@ -214,6 +224,7 @@ const startedPlaywrightContainer = await new PlaywrightContainer(
   PLAYWRIGHT_IMAGE,
   PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER
 )
+.withEnvironment({ PLAYWRIGHT_BLOB_OUTPUT_NAME: "report.zip" })
 .start();
 
 const { output, exitCode } = await startedPlaywrightContainer.exec([
@@ -225,13 +236,14 @@ const { output, exitCode } = await startedPlaywrightContainer.exec([
 
 await startedPlaywrightContainer.saveReporter("blob", externalDestinationReporterPath);
 ```
+
 #### Execute tests in a Playwright container with default configuration and extract a junit reporter with results
 
 ```typescript
 import path from "path";
 import { PlaywrightContainer } from "@testcontainers/playwright";
 
-const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.42.1-jammy";
+const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
 const PLAYWRIGHT_SAVE_REPORTS_DIRECTORY = path.resolve(__dirname, "..", "example-reports");
 
@@ -255,8 +267,7 @@ await startedPlaywrightContainer.saveReporter("junit", externalDestinationReport
 
 ### Trace viewer
 
-Review the [Playwright trace viewer documentation](https://playwright.dev/docs/trace-viewer-intro) in order to know the available reporters and how you can notify
-playwright which should be run and how.
+Review the [Playwright trace viewer documentation](https://playwright.dev/docs/trace-viewer-intro) in order to know the available reporters and how you can notify playwright which should be run and how.
 
 #### Execute tests in a playwright container with default configuration that should fail and extract the trace viewer zip file
 
@@ -289,4 +300,3 @@ await startedPlaywrightContainer.saveTraceViewer(
 
 await startedPlaywrightContainer.stop();
 ```
-
