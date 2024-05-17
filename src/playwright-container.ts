@@ -14,15 +14,18 @@ import {
   log,
 } from "testcontainers";
 
-const CONTAINER_WORKING_DIRECTORY = "/playwright";
-const DEFAULT_JSON_REPORTER_FILE = "results.json";
-const DEFAULT_HTML_REPORTER_OUTPUT_DIRECTORY = "test-reports";
-const DEFAULT_HTML_REPORTER_FILE = "index.html";
-const DEFAULT_BLOB_REPORTER_FILE = "report.zip";
-const DEFAULT_BLOB_REPORTER_OUTPUT_DIRECTORY = "blob-report";
-const DEFAULT_JUNIT_REPORTER_FILE = "results.xml";
-const DEFAULT_TRACE_VIEWER_OUTPUT_DIRECTORY = "test-results";
-const DEFAULT_TRACE_VIEWER_FILE = "trace.zip";
+export const DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
+
+export const CONTAINER_WORKING_DIRECTORY = "/playwright";
+
+export const DEFAULT_JSON_REPORTER_FILE = "results.json";
+export const DEFAULT_HTML_REPORTER_OUTPUT_DIRECTORY = "test-reports";
+export const DEFAULT_HTML_REPORTER_FILE = "index.html";
+export const DEFAULT_BLOB_REPORTER_FILE = "report.zip";
+export const DEFAULT_BLOB_REPORTER_OUTPUT_DIRECTORY = "blob-report";
+export const DEFAULT_JUNIT_REPORTER_FILE = "results.xml";
+export const DEFAULT_TRACE_VIEWER_OUTPUT_DIRECTORY = "test-results";
+export const DEFAULT_TRACE_VIEWER_FILE = "trace.zip";
 
 export const BROWSER = {
   CHROMIUM: "chromium",
@@ -43,7 +46,7 @@ type ExportableReporterType = (typeof EXPORTABLE_REPORTER_TYPE)[keyof typeof EXP
 
 export class PlaywrightContainer extends GenericContainer {
   constructor(
-    image = "mcr.microsoft.com/playwright:v1.42.1-jammy",
+    image = DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
     externalPlaywrightTestsDirectoryToCopyIntoContainerWorkingDirectory: string,
   ) {
     super(image);
@@ -129,24 +132,24 @@ export class StartedPlaywrightContainer extends AbstractStartedContainer {
     return "";
   }
 
-  private getReporterPath(exportableReporterType: ExportableReporterType): string {
+  private getContainerReporterPath(exportableReporterType: ExportableReporterType): string {
     if (exportableReporterType === EXPORTABLE_REPORTER_TYPE.HTML) {
       return path.format({
         root: "/ignored",
         dir: `${CONTAINER_WORKING_DIRECTORY}/${DEFAULT_HTML_REPORTER_OUTPUT_DIRECTORY}`,
-        base: DEFAULT_HTML_REPORTER_FILE,
+        base: this.getContainerReporterFile(EXPORTABLE_REPORTER_TYPE.HTML),
       });
     }
 
     if (exportableReporterType === EXPORTABLE_REPORTER_TYPE.JSON) {
-      return path.join(CONTAINER_WORKING_DIRECTORY, DEFAULT_JSON_REPORTER_FILE);
+      return path.join(CONTAINER_WORKING_DIRECTORY, this.getContainerReporterFile(EXPORTABLE_REPORTER_TYPE.JSON));
     }
 
     if (exportableReporterType === EXPORTABLE_REPORTER_TYPE.BLOB) {
       return path.format({
         root: "/ignored",
         dir: `${CONTAINER_WORKING_DIRECTORY}/${DEFAULT_BLOB_REPORTER_OUTPUT_DIRECTORY}`,
-        base: DEFAULT_BLOB_REPORTER_FILE,
+        base: this.getContainerReporterFile(EXPORTABLE_REPORTER_TYPE.BLOB),
       });
     }
 
@@ -154,7 +157,7 @@ export class StartedPlaywrightContainer extends AbstractStartedContainer {
     return path.format({
       root: "/ignored",
       dir: `${CONTAINER_WORKING_DIRECTORY}`,
-      base: DEFAULT_JUNIT_REPORTER_FILE,
+      base: this.getContainerReporterFile(EXPORTABLE_REPORTER_TYPE.JUNIT),
     });
   }
 
@@ -180,7 +183,7 @@ export class StartedPlaywrightContainer extends AbstractStartedContainer {
   ): Promise<void> {
     try {
       const containerId = this.getId();
-      const reporterPath = this.getReporterPath(exportableReporterType);
+      const reporterPath = this.getContainerReporterPath(exportableReporterType);
 
       log.debug("Extracting archive from container...", { containerId });
       const archiveStream = await this.copyArchiveFromContainer(reporterPath);

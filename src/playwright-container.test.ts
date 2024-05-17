@@ -1,12 +1,20 @@
 import path from "node:path";
 import { existsSync } from "node:fs";
 import { Wait, Network, GenericContainer, StartedTestContainer, StartedNetwork } from "testcontainers";
-import { PlaywrightContainer, StartedPlaywrightContainer, BROWSER } from "./playwright-container";
+import {
+  PlaywrightContainer,
+  StartedPlaywrightContainer,
+  BROWSER,
+  DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
+  DEFAULT_JSON_REPORTER_FILE,
+  DEFAULT_BLOB_REPORTER_FILE,
+  DEFAULT_JUNIT_REPORTER_FILE,
+  DEFAULT_HTML_REPORTER_OUTPUT_DIRECTORY,
+} from "./playwright-container";
 
 describe("PlaywrightContainer", () => {
   const TEST_TIMEOUT = 260_000;
 
-  const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.43.0-jammy";
   const HELLO_WORLD_APP_IMAGE = "javierland/example-hello-world-app:latest";
 
   const EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED = "3000";
@@ -44,15 +52,16 @@ describe("PlaywrightContainer", () => {
     const helloWorldAppStartedContainerIpAddress = helloWorldAppStartedContainer.getIpAddress(startedNetwork.getName());
 
     startedPlaywrightContainer = await new PlaywrightContainer(
-      PLAYWRIGHT_IMAGE,
+      DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE,
       EXTERNAL_HELLO_WORLD_APP_TESTS_DIRECTORY,
     )
       .withNetwork(startedNetwork)
       .withEnvironment({
         APP_CONTAINER_URL_TO_GO_TO: `http://${helloWorldAppStartedContainerIpAddress}:${EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED}`,
-        PLAYWRIGHT_HTML_REPORT: "test-reports",
-        PLAYWRIGHT_JSON_OUTPUT_NAME: "results.json",
-        PLAYWRIGHT_JUNIT_OUTPUT_NAME: "results.xml",
+        PLAYWRIGHT_HTML_REPORT: DEFAULT_HTML_REPORTER_OUTPUT_DIRECTORY,
+        PLAYWRIGHT_JSON_OUTPUT_NAME: DEFAULT_JSON_REPORTER_FILE,
+        PLAYWRIGHT_JUNIT_OUTPUT_NAME: DEFAULT_JUNIT_REPORTER_FILE,
+        PLAYWRIGHT_BLOB_OUTPUT_NAME: DEFAULT_BLOB_REPORTER_FILE,
       })
       .start();
   }, TEST_TIMEOUT);
