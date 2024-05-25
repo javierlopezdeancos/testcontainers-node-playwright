@@ -28,7 +28,7 @@ Playwright documentation in the [Playwright official site](https://playwright.de
     - [Execute tests in a playwright container with default configuration and extract a junit reporter with results](#execute-tests-in-a-playwright-container-with-default-configuration-and-extract-a-junit-reporter-with-results)
   - [Trace viewer](#trace-viewer)
     - [Execute tests in a playwright container with default configuration that should fail and extract the trace viewer zip file](#execute-tests-in-a-playwright-container-with-default-configuration-that-should-fail-and-extract-the-trace-viewer-zip-file)
-  - [Run playwright tests against your app](#run-playwright-tests-against-your-app)
+  - [Run playwright tests pointed to your app](#run-playwright-tests-pointed-to-your-app)
     - [Run playwright tests in a playwright container pointed to your app container](#run-playwright-tests-in-a-playwright-container-pointer-to-your-your-app-container)
         - [Pointed to our hello world app example](#pointed-to-our-hello-world-app-example)
 
@@ -48,8 +48,8 @@ Playwright documentation in the [Playwright official site](https://playwright.de
   - [x] Run Playwright tests in a playwright container with default configuration and extract the blob reporter.
   - [ ] Run Playwright tests in a playwright container with default configuration and extract a list of
         different reporters.
-- Run Playwright tests against your app.
-  - [x] Run Playwright tests in a playwright container against your app container.
+- Run Playwright tests pointed to your app.
+  - [x] Run Playwright tests in a playwright container pointed to your app container.
 - Run Playwright test in UI mode.
   - [ ] Run Tests in UI Mode that user can follow up outside the container using a browser.
 - Run Playwright and extract trace viewer on failed test.
@@ -69,11 +69,11 @@ npm install testcontainers-node-playwright --save-dev
 
 We have some helpers that allow us the testing module strategy.
 
-```
+```text
 .
 └── testcontainers-node-playwright/
     └── src/
-        └── example-hello-world-app-test/
+        └── example-hello-world-app-tests/
 
 ```
 
@@ -296,10 +296,10 @@ await startedPlaywrightContainer.saveTraceViewer(
 await startedPlaywrightContainer.stop();
 ```
 
-### Run playwright tests against your app
+### Run playwright tests pointed to your app
 
 We have seen how to run a playwright container, mount and execute some tests against an application already
-deployed on the web but, the interesting use case is how we can do the same to execute the same tests against another
+deployed on the web but, the interesting use case is how we can do the same to execute the same tests pointed to another
 container that is running the web application that we want to test in our same environment.
 
 #### Run playwright tests in a playwright container pointed to your app container
@@ -308,6 +308,7 @@ container that is running the web application that we want to test in our same e
 
 To testing purposes we are using an image that allow us run a container with a simple web server that serve
 a simple html with some vanilla javascript behavior.
+
 This app has the [source code](https://github.com/javierlopezdeancos/example-hello-world-app?tab=readme-ov-file) and the
 [docker image pushed](https://hub.docker.com/repository/docker/javierland/example-hello-world-app/general) to use
 it here as container application to check if the playwright container can pass its tests.
@@ -320,30 +321,27 @@ const HELLO_WORLD_APP_IMAGE = "javierland/example-hello-world-app:latest";
 
 const EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED = "3000";
 const EXTERNAL_HELLO_WORLD_APP_ALIAS_TO_BE_TESTED = "hello-world-app";
+const EXTERNAL_HELLO_WORLD_APP_TESTS_DIRECTORY = path.resolve(__dirname, "example-hello-world-app-tests");
 
 const network: Network = new Network();
 const startedNetwork = await network.start();
 
+// Start the hello world app container to pass the playwright tests
 const helloWorldAppStartedContainer = await new GenericContainer(HELLO_WORLD_APP_IMAGE)
   .withNetwork(startedNetwork)
-  .withNetworkAliases(EXTERNAL_HELLO_WORLD_APP_ALIAS_TO_BE_TESTED)
-  .withExposedPorts(parseInt(EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED, 10))
-  .withWaitStrategy(
-    Wait.forHttp("/health", parseInt(EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED, 10)).forStatusCodeMatching(
-      (statusCode: number): boolean => statusCode === 200,
-    ),
-  )
+  .withExposedPorts(EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED)
   .start();
 
-await helloWorldAppStartedContainer.exec(["npx", "start"]);
+const helloWorldAppStartedContainerIpAddress = helloWorldAppStartedContainer.getIpAddress(startedNetwork.getName());
 
+// Start the playwright container to execute the tests pointing to the hello world app container
 const startedPlaywrightContainer = await new PlaywrightContainer(
   PLAYWRIGHT_IMAGE,
   EXTERNAL_HELLO_WORLD_APP_TESTS_DIRECTORY,
 )
   .withNetwork(startedNetwork)
   .withEnvironment({
-    APP_CONTAINER_URL_TO_GO_TO: EXTERNAL_HELLO_WORLD_APP_URL_TO_BE_TESTED,
+    APP_CONTAINER_URL_TO_GO_TO: `http://${helloWorldAppStartedContainerIpAddress}:${EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED}`,
   })
   .start();
 
@@ -358,18 +356,22 @@ const { output, exitCode } = await startedPlaywrightContainer.exec([
 await startedPlaywrightContainer.stop();
 await helloWorldAppStartedContainer.stop();
 await startedNetwork.stop();
+
 ```
+
 > [!NOTE]
 > Take into account that we should start the `helloWorldAppStartedContainer` with a started network that we should add
 > too into the playwright container initialization to be able the containers communication.
 > In addition to the two containers being on the same network, the [easiest way for testcontainers to help in
-> containers communication](https://node.testcontainers.org/features/networking/#network-aliases) is to set up an alias for each container that we want to reference.
+> containers communication](https://node.testcontainers.org/features/networking/#network-aliases) is to set up an alias
+> for each container that we want to reference.
 
 > [!NOTE]
 > Take into account that you should reference into `APP_CONTAINER_URL_TO_GO_TO` env var in your playwright test
-> to be executed against your app container.
+> to be executed pointed to your app container.
 
 So, in your playwright test file:
+
 ```typescript
 // ...
 
