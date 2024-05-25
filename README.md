@@ -15,53 +15,75 @@ Playwright documentation in the [Playwright official site](https://playwright.de
 
 - [Features Implemented](#features-implemented)
 - [Installation](#installation)
+- [Example hello world app test helper](#example-hello-world-app-test)
 - [How to use](#how-to-use)
-  - [Start a Playwright container](#start-a-playwright-container)
+  - [Start a playwright container](#start-a-playwright-container)
   - [Execute test in a Playwright container](#execute-test-in-a-playwright-container)
   - [Reporter](#reporter)
-    - [Execute tests in a Playwright container and read the dot reporter output](#execute-tests-in-a-playwright-container-and-read-the-dot-reporter-output)
-    - [Execute tests in a Playwright container and read the line reporter output](#execute-tests-in-a-playwright-container-and-read-the-line-reporter-output)
-    - [Execute tests in a Playwright container with default configuration and extract a html reporter with results](#execute-tests-in-a-playwright-container-with-default-configuration-and-extract-a-html-reporter-with-results)
-    - [Execute tests in a Playwright container with default configuration and extract a json reporter with results](#execute-tests-in-a-playwright-container-with-default-configuration-and-extract-a-json-reporter-with-results)
-    - [Execute tests in a Playwright container with default configuration and extract a blob reporter with results](#execute-tests-in-a-playwright-container-with-default-configuration-and-extract-a-blob-reporter-with-results)
-    - [Execute tests in a Playwright container with default configuration and extract a junit reporter with results](#execute-tests-in-a-playwright-container-with-default-configuration-and-extract-a-junit-reporter-with-results)
-  - [Traces](#traces)
+    - [Execute tests in a playwright container and read the dot reporter output](#execute-tests-in-a-playwright-container-and-read-the-dot-reporter-output)
+    - [Execute tests in a playwright container and read the line reporter output](#execute-tests-in-a-playwright-container-and-read-the-line-reporter-output)
+    - [Execute tests in a playwright container with default configuration and extract a html reporter with results](#execute-tests-in-a-playwright-container-with-default-configuration-and-extract-a-html-reporter-with-results)
+    - [Execute tests in a playwright container with default configuration and extract a json reporter with results](#execute-tests-in-a-playwright-container-with-default-configuration-and-extract-a-json-reporter-with-results)
+    - [Execute tests in a playwright container with default configuration and extract a blob reporter with results](#execute-tests-in-a-playwright-container-with-default-configuration-and-extract-a-blob-reporter-with-results)
+    - [Execute tests in a playwright container with default configuration and extract a junit reporter with results](#execute-tests-in-a-playwright-container-with-default-configuration-and-extract-a-junit-reporter-with-results)
+  - [Trace viewer](#trace-viewer)
     - [Execute tests in a playwright container with default configuration that should fail and extract the trace viewer zip file](#execute-tests-in-a-playwright-container-with-default-configuration-that-should-fail-and-extract-the-trace-viewer-zip-file)
+  - [Run playwright tests pointed to your app](#run-playwright-tests-pointed-to-your-app)
+    - [Run playwright tests in a playwright container pointed to your app container](#run-playwright-tests-in-a-playwright-container-pointer-to-your-your-app-container)
+        - [Pointed to our hello world app example](#pointed-to-our-hello-world-app-example)
 
 ## Features Implemented
 
 - Run Playwright tests in a playwright container.
-    - [x] Run all Playwright tests in a playwright container.
-    - [ ] Run specific tests in a playwright container.
+  - [x] Run all Playwright tests in a playwright container.
+  - [x] Run specific tests file in a playwright container.
+  - [ ] Run specific tests in a playwright container.
 - Run Playwright tests in a playwright container and extract the reporter results.
-    - [x] Run Playwright tests in a playwright container and read the output line reporter.
-    - [x] Run Playwright tests in a playwright container and read the output dot reporter.
-    - [x] Run Playwright tests in a playwright container with default configuration and extract the html reporter.
-    - [ ] Run Playwright tests in a playwright container with default configuration and open the html reporter.
-    - [x] Run Playwright tests in a playwright container with default configuration and extract the json reporter.
-    - [x] Run Playwright tests in a playwright container with default configuration and extract the junit reporter.
-    - [x] Run Playwright tests in a playwright container with default configuration and extract the blob reporter.
-    - [ ] Run Playwright tests in a playwright container with default configuration and extract a list of
-      different kind of reporter.
-- Run Playwright tests against your app.
-    - [ ] Run Playwright tests in a playwright container against your app container.
+  - [x] Run Playwright tests in a playwright container and read the output line reporter.
+  - [x] Run Playwright tests in a playwright container and read the output dot reporter.
+  - [x] Run Playwright tests in a playwright container with default configuration and extract the html reporter.
+  - [ ] Run Playwright tests in a playwright container with default configuration and open the html reporter.
+  - [x] Run Playwright tests in a playwright container with default configuration and extract the json reporter.
+  - [x] Run Playwright tests in a playwright container with default configuration and extract the junit reporter.
+  - [x] Run Playwright tests in a playwright container with default configuration and extract the blob reporter.
+  - [ ] Run Playwright tests in a playwright container with default configuration and extract a list of
+        different reporters.
+- Run Playwright tests pointed to your app.
+  - [x] Run Playwright tests in a playwright container pointed to your app container.
 - Run Playwright test in UI mode.
-    - [ ] Run Tests in UI Mode that user can follow up outside the container using a browser.
+  - [ ] Run Tests in UI Mode that user can follow up outside the container using a browser.
 - Run Playwright and extract trace viewer on failed test.
-    - [x] Run Playwright tests in a playwright container with default configuration that should fail and extract the
-          trace viewer zip file.
+  - [x] Run Playwright tests in a playwright container with default configuration that should fail and extract the
+        trace viewer zip file.
 - Debugging Playwright tests.
-    - [ ] Debugging Playwright tests with the Playwright inspector in a Playwright container.
+  - [ ] Debugging Playwright tests with the Playwright inspector in a Playwright container.
 
 ## Installation
+
 
 ```bash
 npm install testcontainers-node-playwright --save-dev
 ```
 
+## Example hello world app test
+
+We have some helpers that allow us the testing module strategy.
+
+```text
+.
+└── testcontainers-node-playwright/
+    └── src/
+        └── example-hello-world-app-tests/
+
+```
+
+A project generated by playwright cli that allow all infrastructure to run playwright test.
+This project will be the one that will be mounted into the playwright container to execute its tests
+pointed to `example-hello-world-app`
+
 ## How to use
 
-### Start a Playwright container
+### Start a playwright container
 
 Playwright has official docker images in the [Microsoft Artifact Registry](https://mcr.microsoft.com/en-us/product/playwright/about)
 that you can review to choose a tag.
@@ -75,31 +97,27 @@ const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirnam
 
 const startedPlaywrightContainer = await new PlaywrightContainer(
   PLAYWRIGHT_IMAGE,
-  PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER
+  PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER,
 ).start();
 ```
 
-### Execute test in a Playwright container
+### Execute test in a playwright container
 
 ```typescript
-const { output, exitCode } = await startedPlaywrightBuildInReporterContainer.exec([
-  "npx",
-  "playwright",
-  "test",
-]);
+const { output, exitCode } = await startedPlaywrightBuildInReporterContainer.exec(["npx", "playwright", "test"]);
 ```
 
 ### Reporter
 
 Review the [Playwright reporter documentation](https://playwright.dev/docs/test-reporters) in order to know the available reporters and how you can notify
 playwright which should be run and how.
-Playwright has two different kind of reporters, the built-in reporters *(line, dot)* and the external reporters
-*(html, json, junit, blob)*.
+Playwright has two different kind of reporters, the built-in reporters _(line, dot)_ and the external reporters
+_(html, json, junit, blob)_.
 You can set which reporter and how to run it, configuring the `playwright.config.js` file in your project.
 To extract the reporter generated by our tests, you can use the `saveReporter` method from the `PlaywrightContainer`
 class passing the type of reporter to extract and where do you want to extract it .
 
-#### Execute tests in a Playwright container and read the dot reporter output
+#### Execute tests in a playwright container and read the dot reporter output
 
 ```typescript
 import path from "path";
@@ -110,7 +128,7 @@ const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirnam
 
 const startedPlaywrightContainer = await new PlaywrightContainer(
   PLAYWRIGHT_IMAGE,
-  PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER
+  PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER,
 ).start();
 
 const { output, exitCode } = await startedPlaywrightBuildInReporterContainer.exec([
@@ -121,7 +139,7 @@ const { output, exitCode } = await startedPlaywrightBuildInReporterContainer.exe
 ]);
 ```
 
-#### Execute tests in a Playwright container and read the line reporter output
+#### Execute tests in a playwright container and read the line reporter output
 
 ```typescript
 import path from "path";
@@ -132,7 +150,7 @@ const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirnam
 
 const startedPlaywrightContainer = await new PlaywrightContainer(
   PLAYWRIGHT_IMAGE,
-  PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER
+  PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER,
 ).start();
 
 const { output, exitCode } = await startedPlaywrightBuildInReporterContainer.exec([
@@ -143,7 +161,7 @@ const { output, exitCode } = await startedPlaywrightBuildInReporterContainer.exe
 ]);
 ```
 
-#### Execute tests in a Playwright container with default configuration and extract a html reporter with results
+#### Execute tests in a playwright container with default configuration and extract a html reporter with results
 
 ```typescript
 import path from "path";
@@ -157,21 +175,15 @@ const externalDestinationReporterPath = path.resolve(PLAYWRIGHT_SAVE_REPORTS_DIR
 
 const startedPlaywrightContainer = await new PlaywrightContainer(
   PLAYWRIGHT_IMAGE,
-  PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER
-)
-.start();
+  PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER,
+).start();
 
-const { output, exitCode } = await startedPlaywrightContainer.exec([
-  "npx",
-  "playwright",
-  "test",
-  "--reporter=html",
-]);
+const { output, exitCode } = await startedPlaywrightContainer.exec(["npx", "playwright", "test", "--reporter=html"]);
 
 await startedPlaywrightContainer.saveReporter("html", externalDestinationReporterPath);
 ```
 
-#### Execute tests in a Playwright container with default configuration and extract a json reporter with results
+#### Execute tests in a playwright container with default configuration and extract a json reporter with results
 
 ```typescript
 import path from "path";
@@ -185,16 +197,10 @@ const externalDestinationReporterPath = path.resolve(PLAYWRIGHT_SAVE_REPORTS_DIR
 
 const startedPlaywrightContainer = await new PlaywrightContainer(
   PLAYWRIGHT_IMAGE,
-  PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER
-)
-.start();
+  PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER,
+).start();
 
-const { output, exitCode } = await startedPlaywrightContainer.exec([
-  "npx",
-  "playwright",
-  "test",
-  "--reporter=json",
-]);
+const { output, exitCode } = await startedPlaywrightContainer.exec(["npx", "playwright", "test", "--reporter=json"]);
 
 await startedPlaywrightContainer.saveReporter("json", externalDestinationReporterPath);
 ```
@@ -227,12 +233,7 @@ const startedPlaywrightContainer = await new PlaywrightContainer(
 .withEnvironment({ PLAYWRIGHT_BLOB_OUTPUT_NAME: "report.zip" })
 .start();
 
-const { output, exitCode } = await startedPlaywrightContainer.exec([
-  "npx",
-  "playwright",
-  "test",
-  "--reporter=blob",
-]);
+const { output, exitCode } = await startedPlaywrightContainer.exec(["npx", "playwright", "test", "--reporter=blob"]);
 
 await startedPlaywrightContainer.saveReporter("blob", externalDestinationReporterPath);
 ```
@@ -251,16 +252,10 @@ const externalDestinationReporterPath = path.resolve(PLAYWRIGHT_SAVE_REPORTS_DIR
 
 const startedPlaywrightContainer = await new PlaywrightContainer(
   PLAYWRIGHT_IMAGE,
-  PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER
-)
-.start();
+  PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER,
+).start();
 
-const { output, exitCode } = await startedPlaywrightContainer.exec([
-  "npx",
-  "playwright",
-  "test",
-  "--reporter=junit",
-]);
+const { output, exitCode } = await startedPlaywrightContainer.exec(["npx", "playwright", "test", "--reporter=junit"]);
 
 await startedPlaywrightContainer.saveReporter("junit", externalDestinationReporterPath);
 ```
@@ -299,4 +294,93 @@ await startedPlaywrightContainer.saveTraceViewer(
 );
 
 await startedPlaywrightContainer.stop();
+```
+
+### Run playwright tests pointed to your app
+
+We have seen how to run a playwright container, mount and execute some tests against an application already
+deployed on the web but, the interesting use case is how we can do the same to execute the same tests pointed to another
+container that is running the web application that we want to test in our same environment.
+
+#### Run playwright tests in a playwright container pointed to your app container
+
+##### Pointed to our hello world app example
+
+To testing purposes we are using an image that allow us run a container with a simple web server that serve
+a simple html with some vanilla javascript behavior.
+
+This app has the [source code](https://github.com/javierlopezdeancos/example-hello-world-app?tab=readme-ov-file) and the
+[docker image pushed](https://hub.docker.com/repository/docker/javierland/example-hello-world-app/general) to use
+it here as container application to check if the playwright container can pass its tests.
+
+You can identify how we create and start this container in `playwright-container.test.ts` file:
+
+```typescript
+const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.43.0-jammy";
+const HELLO_WORLD_APP_IMAGE = "javierland/example-hello-world-app:latest";
+
+const EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED = "3000";
+const EXTERNAL_HELLO_WORLD_APP_ALIAS_TO_BE_TESTED = "hello-world-app";
+const EXTERNAL_HELLO_WORLD_APP_TESTS_DIRECTORY = path.resolve(__dirname, "example-hello-world-app-tests");
+
+const network: Network = new Network();
+const startedNetwork = await network.start();
+
+// Start the hello world app container to pass the playwright tests
+const helloWorldAppStartedContainer = await new GenericContainer(HELLO_WORLD_APP_IMAGE)
+  .withNetwork(startedNetwork)
+  .withExposedPorts(EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED)
+  .start();
+
+const helloWorldAppStartedContainerIpAddress = helloWorldAppStartedContainer.getIpAddress(startedNetwork.getName());
+
+// Start the playwright container to execute the tests pointing to the hello world app container
+const startedPlaywrightContainer = await new PlaywrightContainer(
+  PLAYWRIGHT_IMAGE,
+  EXTERNAL_HELLO_WORLD_APP_TESTS_DIRECTORY,
+)
+  .withNetwork(startedNetwork)
+  .withEnvironment({
+    APP_CONTAINER_URL_TO_GO_TO: `http://${helloWorldAppStartedContainerIpAddress}:${EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED}`,
+  })
+  .start();
+
+const { output, exitCode } = await startedPlaywrightContainer.exec([
+  "npx",
+  "playwright",
+  "test",
+  "tests/example-success.spec.ts",
+  "--reporter=dot",
+]);
+
+await startedPlaywrightContainer.stop();
+await helloWorldAppStartedContainer.stop();
+await startedNetwork.stop();
+
+```
+
+> [!NOTE]
+> Take into account that we should start the `helloWorldAppStartedContainer` with a started network that we should add
+> too into the playwright container initialization to be able the containers communication.
+> In addition to the two containers being on the same network, the [easiest way for testcontainers to help in
+> containers communication](https://node.testcontainers.org/features/networking/#network-aliases) is to set up an alias
+> for each container that we want to reference.
+
+> [!NOTE]
+> Take into account that you should reference into `APP_CONTAINER_URL_TO_GO_TO` env var in your playwright test
+> to be executed pointed to your app container.
+
+So, in your playwright test file:
+
+```typescript
+// ...
+
+const { APP_CONTAINER_URL_TO_GO_TO = "http://localhost:3000" } = process.env;
+
+test("should blablabla", async ({ page }) => {
+  await page.goto(APP_CONTAINER_URL_TO_GO_TO);
+
+  // ...
+});
+
 ```
