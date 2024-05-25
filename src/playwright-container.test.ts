@@ -1,6 +1,6 @@
 import path from "node:path";
 import { existsSync } from "node:fs";
-import { Wait, Network, GenericContainer, StartedTestContainer, StartedNetwork } from "testcontainers";
+import { Network, GenericContainer, StartedTestContainer, StartedNetwork } from "testcontainers";
 import {
   PlaywrightContainer,
   StartedPlaywrightContainer,
@@ -17,7 +17,7 @@ describe("PlaywrightContainer", () => {
 
   const HELLO_WORLD_APP_IMAGE = "javierland/example-hello-world-app:latest";
 
-  const EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED = "3000";
+  const EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED = 3000;
 
   const EXTERNAL_PLAYWRIGHT_SAVE_REPORTS_DIRECTORY = path.resolve(__dirname, "..", "example-reports");
   const EXTERNAL_PLAYWRIGHT_SAVE_TRACES_DIRECTORY = path.resolve(__dirname, "..", "example-results");
@@ -39,15 +39,8 @@ describe("PlaywrightContainer", () => {
 
     helloWorldAppStartedContainer = await new GenericContainer(HELLO_WORLD_APP_IMAGE)
       .withNetwork(startedNetwork)
-      .withExposedPorts(parseInt(EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED, 10))
-      .withWaitStrategy(
-        Wait.forHttp("/health", parseInt(EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED, 10)).forStatusCodeMatching(
-          (statusCode: number): boolean => statusCode === 200,
-        ),
-      )
+      .withExposedPorts(EXTERNAL_HELLO_WORLD_APP_PORT_TO_BE_TESTED)
       .start();
-
-    await helloWorldAppStartedContainer.exec(["npx", "start"]);
 
     const helloWorldAppStartedContainerIpAddress = helloWorldAppStartedContainer.getIpAddress(startedNetwork.getName());
 
