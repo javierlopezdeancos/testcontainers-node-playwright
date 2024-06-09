@@ -30,7 +30,7 @@ Playwright documentation in the [Playwright official site](https://playwright.de
     - [Execute tests in a playwright container with default configuration that should fail and extract the trace viewer zip file](#execute-tests-in-a-playwright-container-with-default-configuration-that-should-fail-and-extract-the-trace-viewer-zip-file)
   - [Run playwright tests pointed to your app](#run-playwright-tests-pointed-to-your-app)
     - [Run playwright tests in a playwright container pointed to your app container](#run-playwright-tests-in-a-playwright-container-pointer-to-your-your-app-container)
-        - [Pointed to our hello world app example](#pointed-to-our-hello-world-app-example)
+      - [Pointed to our hello world app example](#pointed-to-our-hello-world-app-example)
 
 ## Features Implemented
 
@@ -90,7 +90,7 @@ that you can review to choose a tag.
 
 ```typescript
 import path from "path";
-import { PlaywrightContainer } from "@testcontainers/playwright";
+import { PlaywrightContainer } from "testcontainers-node-playwright";
 
 const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
@@ -121,7 +121,7 @@ class passing the type of reporter to extract and where do you want to extract i
 
 ```typescript
 import path from "path";
-import { PlaywrightContainer } from "@testcontainers/playwright";
+import { PlaywrightContainer } from "testcontainers-node-playwright";
 
 const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
@@ -143,7 +143,7 @@ const { output, exitCode } = await startedPlaywrightContainer.exec([
 
 ```typescript
 import path from "path";
-import { PlaywrightContainer } from "@testcontainers/playwright";
+import { PlaywrightContainer } from "testcontainers-node-playwright";
 
 const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
@@ -165,7 +165,7 @@ const { output, exitCode } = await startedPlaywrightContainer.exec([
 
 ```typescript
 import path from "path";
-import { PlaywrightContainer } from "@testcontainers/playwright";
+import { PlaywrightContainer } from "testcontainers-node-playwright";
 
 const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
@@ -187,7 +187,7 @@ await startedPlaywrightContainer.saveReporter("html", externalDestinationReporte
 
 ```typescript
 import path from "path";
-import { PlaywrightContainer } from "@testcontainers/playwright";
+import { PlaywrightContainer } from "testcontainers-node-playwright";
 
 const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
@@ -218,7 +218,7 @@ Those changes are reflected in the [PR #7](https://github.com/javierlopezdeancos
 
 ```typescript
 import path from "path";
-import { PlaywrightContainer } from "@testcontainers/playwright";
+import { PlaywrightContainer } from "testcontainers-node-playwright";
 
 const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
@@ -242,7 +242,7 @@ await startedPlaywrightContainer.saveReporter("blob", externalDestinationReporte
 
 ```typescript
 import path from "path";
-import { PlaywrightContainer } from "@testcontainers/playwright";
+import { PlaywrightContainer } from "testcontainers-node-playwright";
 
 const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
 const PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER = path.resolve(__dirname, "..", "example-project");
@@ -267,7 +267,7 @@ Review the [Playwright trace viewer documentation](https://playwright.dev/docs/t
 #### Execute tests in a playwright container with default configuration that should fail and extract the trace viewer zip file
 
 ```typescript
-import { PlaywrightContainer, BROWSER } from "./playwright-container";
+import { PlaywrightContainer } from "testcontainers-node-playwright";
 
 const startedPlaywrightContainer = await new PlaywrightContainer(
   PLAYWRIGHT_IMAGE,
@@ -316,6 +316,9 @@ it here as container application to check if the playwright container can pass i
 You can identify how we create and start this container in `playwright-container.test.ts` file:
 
 ```typescript
+import { Network, GenericContainer } from "testcontainers";
+import { PlaywrightContainer } from "testcontainers-node-playwright";
+
 const PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.43.0-jammy";
 const HELLO_WORLD_APP_IMAGE = "javierland/example-hello-world-app:latest";
 
