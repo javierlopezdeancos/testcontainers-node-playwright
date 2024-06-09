@@ -104,7 +104,7 @@ const startedPlaywrightContainer = await new PlaywrightContainer(
 ### Execute test in a playwright container
 
 ```typescript
-const { output, exitCode } = await startedPlaywrightBuildInReporterContainer.exec(["npx", "playwright", "test"]);
+const { output, exitCode } = await startedPlaywrightContainer.exec(["npx", "playwright", "test"]);
 ```
 
 ### Reporter
@@ -131,7 +131,7 @@ const startedPlaywrightContainer = await new PlaywrightContainer(
   PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER,
 ).start();
 
-const { output, exitCode } = await startedPlaywrightBuildInReporterContainer.exec([
+const { output, exitCode } = await startedPlaywrightContainer.exec([
   "npx",
   "playwright",
   "test",
@@ -153,7 +153,7 @@ const startedPlaywrightContainer = await new PlaywrightContainer(
   PLAYWRIGHT_PROJECT_TESTS_TO_RUN_INTO_THE_CONTAINER,
 ).start();
 
-const { output, exitCode } = await startedPlaywrightBuildInReporterContainer.exec([
+const { output, exitCode } = await startedPlaywrightContainer.exec([
   "npx",
   "playwright",
   "test",
