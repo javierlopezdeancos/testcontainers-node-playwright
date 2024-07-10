@@ -14,7 +14,7 @@ import {
   log,
 } from "testcontainers";
 
-export const DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE = "mcr.microsoft.com/playwright:v1.44.0-jammy";
+export const DEFAULT_PLAYWRIGHT_CONTAINER_IMAGE = "mcr.microsoft.com/playwright:v1.45.1-jammy";
 
 export const CONTAINER_WORKING_DIRECTORY = "/playwright";
 
