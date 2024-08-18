@@ -75,6 +75,6 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "testcontainers": "^10.10.4"
+    "testcontainers": "^10.11.0"
   }
 }
