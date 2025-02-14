@@ -1,6 +1,6 @@
 {
   "name": "testcontainers-node-playwright",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "license": "MIT",
   "author": {
     "name": "Javier López de Ancos",
@@ -11,8 +11,8 @@
     "Javier Lopez de Ancos <javierlopezdeancos@outlook.com> (https://github.com/javierlopezdeancos)"
   ],
   "engines": {
-    "node": ">=20.13.1",
-    "npm": ">=10.5.2"
+    "node": ">=22.13.1",
+    "npm": ">=10.9.2"
   },
   "keywords": [
     "playwright",
@@ -75,6 +75,6 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "testcontainers": "^10.13.2"
+    "testcontainers": "^10.18.0"
   }
 }
