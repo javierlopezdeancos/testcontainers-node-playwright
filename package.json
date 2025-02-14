@@ -11,8 +11,8 @@
     "Javier Lopez de Ancos <javierlopezdeancos@outlook.com> (https://github.com/javierlopezdeancos)"
   ],
   "engines": {
-    "node": ">=20.13.1",
-    "npm": ">=10.5.2"
+    "node": ">=22.13.1",
+    "npm": ">=11.1.0"
   },
   "keywords": [
     "playwright",
@@ -76,5 +76,6 @@
   },
   "dependencies": {
     "testcontainers": "^10.13.2"
-  }
+  },
+  "packageManager": "pnpm@7.27.0+sha512.9efc46af182ede8632c3bce0ec3768b449eaa7daff734fe22d91ebe907b024f1245451923ddb31ae6d0714a0643aac02227a2eb45cf3fe6b46c7ea5b615f140b"
 }
