@@ -11,7 +11,7 @@
     "Javier Lopez de Ancos <javierlopezdeancos@outlook.com> (https://github.com/javierlopezdeancos)"
   ],
   "engines": {
-    "node": ">=22.13.1",
+    "node": ">=24.18.0",
     "npm": ">=10.9.2"
   },
   "keywords": [
