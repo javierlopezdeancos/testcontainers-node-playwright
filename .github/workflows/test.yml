@@ -1,5 +1,5 @@
 name: Test
-run-name: "Ubuntu-22.04 / Node 20.x / Runtime Docker"
+run-name: "Ubuntu v22.04 / Node v24.18.0 / Runtime Docker"
 
 on:
   push:
@@ -17,16 +17,16 @@ concurrency:
 
 jobs:
   test:
-    name: "Runner Ubuntu-22.04 LTS :: Node 20.x :: Runtime Docker"
+    name: "Runner Ubuntu v22.04 LTS :: Node v24.18.0 LTS :: Runtime Docker"
     runs-on: ubuntu-22.04
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
 
-      - name: Install NodeJS 20.x
+      - name: Install NodeJS v24.18.0
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24.18.0
           cache: "npm"
       - name: Install dependencies
         run: npm ci --omit=optional

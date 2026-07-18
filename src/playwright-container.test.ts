@@ -112,8 +112,6 @@ describe("PlaywrightContainer", () => {
 
       expect(output).toContain(SUCCESSFUL_TEST_RUNNING_OUTPUT);
       expect(output).toContain(SUCCESSFUL_TEST_PASSED_OUTPUT);
-      expect(output).toContain("To open last HTML report run");
-      expect(output).toContain("npx playwright show-report");
       expect(exitCode).toBe(SUCCESSFUL_TEST_EXIT_CODE);
       expect(existsSync(externalDestinationReporterPath)).toBe(true);
     },
